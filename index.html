@@ -57,6 +57,11 @@
       .find( ".portlet-header" )
         .addClass( "ui-widget-header ui-corner-all" )
         .prepend( "<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>");
+		
+	$(".portlet").mouseup(function(){
+		alert($(this).attr("id"));
+	
+	});
  
     $( ".portlet-toggle" ).click(function() {
       var icon = $( this );
@@ -68,7 +73,7 @@
 </head>
 <body>
  
-<div class="column">
+<div class="column" id="col1">
  
   <div class="portlet">
     <div class="portlet-header">Feeds</div>
@@ -82,7 +87,7 @@
  
 </div>
  
-<div class="column">
+<div class="column" id="col2">
  
   <div class="portlet" id="1">
     <div class="portlet-header">Shopping</div>
@@ -91,7 +96,7 @@
  
 </div>
  
-<div class="column">
+<div class="column" id="col3">
  
   <div class="portlet" id="2">
     <div class="portlet-header">Links</div>
@@ -102,9 +107,9 @@
     <div class="portlet-header">Images</div>
     <div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
   </div>
- 
+
 </div>
- 
+	 
  
 </body>
 </html>
