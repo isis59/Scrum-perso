@@ -60,6 +60,10 @@
       icon.toggleClass( "ui-icon-minusthick ui-icon-plusthick" );
       icon.closest( ".portlet" ).find( ".portlet-content" ).toggle();
     });
+    
+    $( ".portlet" ).on( "dragstop", function( event, ui ) {
+      alert("hello");  
+    } );
   });
   </script>
 </head>
