@@ -3,10 +3,9 @@
 <head>
   <meta charset="utf-8">
   <title>jQuery UI Sortable - Portlets</title>
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-  <link rel="stylesheet" href="/resources/demos/style.css">
   <style>
   body {
     min-width: 520px;
@@ -42,15 +41,29 @@
   </style>
   <script>
   $(function() {
+  
+var entrant;
+var sortant; 
+var ob;
+
     $( ".column" ).sortable({
       connectWith: ".column",
       handle: ".portlet-header",
       cancel: ".portlet-toggle",
       placeholder: "portlet-placeholder ui-corner-all",
-      update: function( event, ui ) {
-        alert($(this).attr("id"));
+	  receive: function( event, ui ) {
+        entrant = $(this).attr("id");
+        ob = $(ui.item).attr("id");
+      },
+	  remove: function( event, ui ) {
+        sortant = $(this).attr("id");
+      },
+	  stop: function( event, ui ) {
+        alert("entrant : "+entrant+"\n sortant = "+sortant+"\n objet : "+ob);
       }
     });
+ 
+	 
  
     $( ".portlet" )
       .addClass( "ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" )
@@ -58,16 +71,15 @@
         .addClass( "ui-widget-header ui-corner-all" )
         .prepend( "<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>");
 		
-	$(".portlet").mouseup(function(){
-		alert($(this).attr("id"));
-	
-	});
+
  
     $( ".portlet-toggle" ).click(function() {
       var icon = $( this );
       icon.toggleClass( "ui-icon-minusthick ui-icon-plusthick" );
       icon.closest( ".portlet" ).find( ".portlet-content" ).toggle();
     });
+	
+	
   });
   </script>
 </head>
