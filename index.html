@@ -48,7 +48,7 @@
       cancel: ".portlet-toggle",
       placeholder: "portlet-placeholder ui-corner-all",
       update: function( event, ui ) {
-        alert("hello");
+        alert($(this).attr("id"));
       }
     });
  
@@ -84,7 +84,7 @@
  
 <div class="column">
  
-  <div class="portlet">
+  <div class="portlet" id="1">
     <div class="portlet-header">Shopping</div>
     <div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
   </div>
@@ -93,7 +93,7 @@
  
 <div class="column">
  
-  <div class="portlet">
+  <div class="portlet" id="2">
     <div class="portlet-header">Links</div>
     <div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
   </div>
