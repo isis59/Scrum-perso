@@ -57,18 +57,28 @@
 				var ob;
 				
 				$(".portlet").on("dblclick",function() {
-					$("#id_tache").attr("value",$(this).attr("id"));
-					alert($("#id_tache").attr("value"));
+					$("#div_create").dialog();
+					$("#id_tache").val($(this).attr("id_tache"));
+					//alert($("#id_tache").attr("value"));
 					$("#titre").attr("value",$(this).children(".portlet-header").text());
 					$("#comm").attr("value",$(this).children(".portlet-content").text());
 					$("#couleur").attr("value",$(this).children(".portlet-content").css("background-color"));
-					$("#div_create").dialog();				
+					
 				});
 				
-				$("#form_create").on("submit",function(){
+				function maj_tache(tache){
 					
-					var html = $.ajax({ type: "GET", url:"maj.php",async: false,data: 'id='+$("#id_tache").attr("value")+'&titre='+$("#titre").attr("value")+'&comm='+$("#comm").attr("value")+'&couleur='+$("#couleur").attr("value")}).responseText;
+						tache.children(".portlet-header").text($("#titre").attr("value"));
+						tache.children(".portlet-content").text($("#comm").attr("value"));
+					
+					}
+				
+				$("#form_create").on("submit",function(){
+				
+					
+					var html = $.ajax({ type: "GET", url:"maj.php",async: false,data: 'id_tache='+$("#id_tache").val()+'&titre='+$("#titre").val()+'&comm='+$("#comm").val()+'&couleur='+$("#couleur").val()}).responseText;
 					alert(html);
+					return false;
 				});
 				
 				
@@ -78,14 +88,16 @@
 					cancel: ".portlet-toggle",
 					placeholder: "portlet-placeholder ui-corner-all",
 					receive: function( event, ui ) {
-						entrant = $(this).attr("id");
-						ob = $(ui.item).attr("id");
+						entrant = $(this).attr("id_col");
+						ob = $(ui.item).attr("id_tache");
 					},
 					remove: function( event, ui ) {
-						sortant = $(this).attr("id");
+						sortant = $(this).attr("id_col");
 					},
 					stop: function( event, ui ) {
 						alert("entrant : "+entrant+"\n sortant = "+sortant+"\n objet : "+ob);
+						var html = $.ajax({type: "GET", url:"maj.php",async:false,data: 'a=move&id_tache='+ob+'&col='+entrant}).response();
+						alert(html);
 					}
 				});
 				
@@ -121,11 +133,11 @@
 		$req_colonnes = $db->query($sql_colonnes);
 		while($res_colonnes = $req_colonnes->fetch()){
 			
-			echo '<div class="column" id="col'.$res_colonnes['id_col'].'" >'.$res_colonnes['lib_col'].'<br /><br />';
+			echo '<div class="column" id_col="'.$res_colonnes['id_col'].'" >'.$res_colonnes['lib_col'].'<br /><br />';
 			$sql_taches = "select * from taches where col_tache = '".$res_colonnes['id_col']."';";
 			$req_taches = $db->query($sql_taches);
 			while($res_taches = $req_taches->fetch()){
-				echo '<div class="portlet" id="'.$res_taches['id_tache'].'">';
+				echo '<div class="portlet" id_tache="'.$res_taches['id_tache'].'">';
 				echo '<div class="portlet-header">'.$res_taches['lib_tache'].'</div>';
 				echo '<div class="portlet-content">'.$res_taches['com_tache'].'</div>';
 				echo '</div>';
@@ -136,54 +148,13 @@
 		
 	?>
 	<div id="div_create" style="display:none;" title="creer une tache" >
-		<form id="form_create" method="GET" action="">
+		<form id="form_create" method="GET" action="maj.php">
 			<input type="hidden" id="id_tache" />
 			Titre : <input type="text" id="titre" value=""/><br />
 			Commentaire : <input type="text" id="comm" value=""/><br />
 			Couleur : <input type="text" id="couleur" value=""/><br /><br />
 			<input type="submit" value="envoyer" /><br />
 		</form>
-	</div>
-	
-	
-	
-	
-	
-	<div class="column" id="col1">
-		
-		<div class="portlet" >
-			<div class="portlet-header">Feeds</div>
-			<div class="portlet-content" style="background-color:red;color:white;">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
-		</div>
-		
-		<div class="portlet">
-			<div class="portlet-header">News</div>
-			<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
-		</div>
-		
-	</div>
-	
-	<div class="column" id="col2">
-		
-		<div class="portlet" id="1">
-			<div class="portlet-header">Shopping</div>
-			<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
-		</div>
-		
-	</div>
-	
-	<div class="column" id="col3">
-		
-		<div class="portlet" id="2">
-			<div class="portlet-header">Links</div>
-			<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
-		</div>
-		
-		<div class="portlet">
-			<div class="portlet-header">Images</div>
-			<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
-		</div>
-		
 	</div>
 	
 	
