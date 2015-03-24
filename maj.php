@@ -1,14 +1,31 @@
 <?php
 	
-	include("db.php");
+include("db.php");
+	
 if(isset($_GET['a'])){	
 	if($_GET['a'] == "move"){
-		$sql = "UPDATE taches set col_tache='".$_GET['col']."' where id_tache='".$_GET['id_tache']."'";
-		if($res = $db->query($sql)){
-			echo "deplacement effectué";
+		$sql_upd = "UPDATE taches set col_tache='".$_GET['col']."' where id_tache=".$_GET['id_tache']."";
+		$sql_col = "select * from colonnes where id_col='".$_GET['col']."'";
+		$res_col = $db->query($sql_col)->fetch();
+		
+		if($res = $db->query($sql_upd)){
+			//echo "deplacement effectué";
+			//echo $sql_sel;
+			//echo $_GET['col'];
+			if($res_col['lib_col'] == "test"){
+				echo "test";
+				$sel_task = "select * from taches where id_tache=".$_GET['id_tache'];
+				$res_seltask = $db->query($sel_task)->fetch();
+				
+				$upd_task = "update taches set lib_tache='[TEST]".$res_seltask['lib_tache']."', dev_tache=".$res_seltask['test_tache'].", test_tache=".$res_seltask['dev_tache'].", com_tache='[A tester] ".$res_seltask['com_tache']."', col_tache=1 where id_tache=".$_GET['id_tache'];	
+				$res_updtask = $db->query($upd_task);
+			}
+			
+				
+			
 		}
 		else{
-			echo $sqll;
+			echo $sql_sel;
 		}
 	}
 	else if($_GET['a'] == "edit"){

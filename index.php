@@ -101,17 +101,8 @@
 					$("#comm").attr("value",$(this).children(".portlet-content").text());
 					$("#dev").attr("value",$(this).attr("id_dev"));
 					$("#test").attr("value",$(this).attr("id_test"));
-					$("#couleur").attr("value",$(this).children(".portlet-content").css("background-color"));
-					
+					$("#couleur").attr("value",$(this).children(".portlet-content").css("background-color"));	
 				});
-				
-				$("#link_create").click(function(){
-					// vidage du champs id_tache 
-					$("#id_tache").val("");
-					$("#div_tache").dialog();
-					
-				});
-				
 				
 				$("#form_tache").on("submit",function(){
 					if($("#id_tache").val() == ""){
@@ -157,6 +148,10 @@
 					},
 					stop: function( event, ui ) {
 						var html = tache_move(ob,entrant);
+						if(html == "test"){
+							alert('passage en test');
+							location.reload(true);
+						}
 						if(DEBUG){
 							alert("entrant : "+entrant+"\n sortant = "+sortant+"\n objet : "+ob);
 							alert(html);
@@ -177,8 +172,7 @@
 				.find( ".portlet-header" )
 				.addClass( "ui-widget-header ui-corner-all" )
 				.prepend( "<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>");
-				
-				
+								
 				
 				$( ".portlet-toggle" ).click(function() {
 					var icon = $( this );
@@ -191,8 +185,7 @@
 		</script>
 	</head>
 	<body>
-	<a href="#" id="link_create" />new</a>
-	<br /><br /><br /><br />
+	<p style="margin:auto;text-align:center;font-size: 40px">Projet MADERA</p>
 	<table>
 		<tr>
 			<td class="entete">col0</td>
