@@ -37,56 +37,51 @@ $(function() {
 		// vidage du champs id_tache 
 		$("#id_tache").val("");	
 		if($(this).attr("id_tache") != ""){
-		var html_form = $.ajax({
-			type: "GET",
-			url: "config/requetes.php",
-			async: false,
-			data: 'req=info_tache&id='+$(this).attr("id_tache")
-		}).responseText;
-		
-		alert(html_form);
-		$("#div_tache").html(html_form);
-		$("#div_tache").dialog();
-		
-		$( document ).delegate("#form_tache", "submit", function(){
+			var html_form = $.ajax({
+				type: "GET",
+				url: "config/requetes.php",
+				async: false,
+				data: 'req=info_tache&id='+$(this).attr("id_tache")
+			}).responseText;
 			
-			alert('id : '+($("#id_tache").val()));
-			if($("#id_tache").val() == ""){
-				var html = tache_create($("#titre").val(),$("#comm").val(),$("#dev").val(),$("#test").val(),$("#couleur").val());
-				var tache_new = "<div class='portlet' id='' id_tache='' id_dev='"+$("#dev").val()+"' id_test='"+$("#test").val()+"'><div class='portlet-header'>"+$("#titre").val()+"</div><div class='portlet-content'>"+$("#comm").val()+"</div></div>";						
+			alert(html_form);
+			$("#div_tache").html(html_form);
+			$("#div_tache").dialog();
+			
+			$( document ).delegate("#form_tache", "submit", function(){
 				
-				$("#col1").append(tache_new);
+				alert('id : '+($("#id_tache").val()));
+				if($("#id_tache").val() == ""){
+					var html = tache_create($("#titre").val(),$("#comm").val(),$("#dev").val(),$("#test").val(),$("#couleur").val());
+					var tache_new = "<div class='portlet' id='' id_tache='' id_dev='"+$("#dev").val()+"' id_test='"+$("#test").val()+"'><div class='portlet-header'>"+$("#titre").val()+"</div><div class='portlet-content'>"+$("#comm").val()+"</div></div>";						
+					
+					$("#col1").append(tache_new);
+					
+					$( ".portlet" )
+					.addClass( "ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" )
+					.find( ".portlet-header" )
+					.addClass( "ui-widget-header ui-corner-all" )
+					.prepend( "<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>");
+					
+					$("#col0").sortable( "cancel" );
+					alert("ok");
+				}
+				else{
+					//alert ($("#id_tache").val());
+					var html = tache_edit($("#id_tache").val(),$("#titre").val(),$("#comm").val(),$("#dev").val(),$("#test").val(),$("#couleur").val());
+					alert("nok");
+				}
 				
-				$( ".portlet" )
-				.addClass( "ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" )
-				.find( ".portlet-header" )
-				.addClass( "ui-widget-header ui-corner-all" )
-				.prepend( "<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>");
+				if(DEBUG){
+					alert(html);
+				}
 				
-				$("#col0").sortable( "cancel" );
-				alert("ok");
-			}
-			else{
-				//alert ($("#id_tache").val());
-				var html = tache_edit($("#id_tache").val(),$("#titre").val(),$("#comm").val(),$("#dev").val(),$("#test").val(),$("#couleur").val());
-				alert("nok");
-			}
+				$("#div_tache").dialog("close");
+				
+				return false;
+			}); 
 			
-			if(DEBUG){
-				alert(html);
-			}
 			
-			$("#div_tache").dialog("close");
-			
-			return false;
-		}); 
-		
-		// $("#id_tache").val($(this).attr("id_tache"));
-		//$("#titre").attr("value",$(this).children(".portlet-header").text());
-		//$("#comm").attr("value",$(this).children(".portlet-content").text());
-		// $("#dev").attr("value",$(this).attr("id_dev"));
-		// $("#test").attr("value",$(this).attr("id_test"));
-		//$("#couleur").attr("value",$(this).children(".portlet-content").css("background-color"));	
 		}else{
 			alert('else');
 		}
