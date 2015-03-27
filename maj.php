@@ -25,13 +25,13 @@ if(isset($_GET['a'])){
 			
 		}
 		else{
-			echo $sql_sel;
+			echo $sql_upd;
 		}
 	}
 	else if($_GET['a'] == "edit"){
 		$sql = "UPDATE taches SET lib_tache='".$_GET['titre']."', com_tache='".$_GET['comm']."', dev_tache='".$_GET['dev']."', test_tache='".$_GET['test']."', couleur_tache='".$_GET['couleur']."' where id_tache='".$_GET['id_tache']."'";
 		$res = $db->query($sql);
-		echo $sql;
+		//echo $sql;
 	}
 	else if($_GET['a'] == "new"){
 		$sql = "INSERT INTO taches values(

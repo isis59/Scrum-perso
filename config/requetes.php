@@ -13,6 +13,10 @@
 				$result = info_tache($_GET['id'],$db);
 				echo $result;
 				break;
+				
+			case "new_tache":
+				echo new_tache($db);
+				break;
 		
 		}	
 	

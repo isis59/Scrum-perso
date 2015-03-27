@@ -24,10 +24,24 @@
 		}
 		
 		$form .= '</select><br />
-		Couleur : <input type="text" id="couleur" value="'.$res_infotache['couleur_tache'].'"/><br /><br />
+		Couleur : <input type="color" id="couleur" value="#'.$res_infotache['couleur_tache'].'"/><br /><br />
 		<input type="submit" value="envoyer" /><br />
 		</form>';
 		
 		return $form;
+	}
+	
+	function new_tache($bd){
+	
+		$req_insert = $bd->query("insert into taches values('',' ',' ',1,1,1,'ff0000','new')");
+		$test =$bd->lastInsertId();
+	
+		$req_newid = $bd->query("select max(id_tache) as id from taches");
+		$res_newid = $req_newid->fetch();
+		
+		$form_new = info_tache($test,$bd);
+		
+		return $form_new;
+	
 	}
 ?>
