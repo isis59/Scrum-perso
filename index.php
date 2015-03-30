@@ -88,9 +88,15 @@
 				<p style="margin:auto;text-align:center;font-size: 40px">Projet MADERA</p>
 				<table>
 					<tr>
-						<td class="entete">col0</td>
-						<td class="entete">col1</td>
-						<td class="entete">col2</td>
+						<td class="entete">&nbsp;</td>
+<?php 
+						$sql_colonnes = 'select * from colonnes';
+						$req_colonnes = $db->query($sql_colonnes);
+						while($res_colonnes = $req_colonnes->fetch()){
+							echo '<td class="entete">'.$res_colonnes['lib_col'].'</td>';
+						}
+?>
+						
 					</tr>
 				</table>
 				<div class="column" id="col0" id_col="0" >
@@ -105,7 +111,6 @@
 				<?php
 					$sdl="\n";
 					$tab="\t";
-					//include("db.php");
 					
 					$sql_colonnes = 'select * from colonnes';
 					$req_colonnes = $db->query($sql_colonnes);
