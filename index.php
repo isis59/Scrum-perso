@@ -62,7 +62,7 @@
 	<body>
 		
 		<?php
-			if(isset($_SESSION['id']) ){
+			if(isset($_SESSION['id_user']) ){
 				
 				include("db.php");
 				try{
@@ -70,14 +70,11 @@
 					//echo "admin : ".$res_adm->fetch()['value'];
 					//if($_SESSION['id'] == $res_adm['value']){
 					if(isset($_SESSION['is_admin'])){
-						$scrum = "select * from users 
-						inner join 
-						taches on dev_tache=id_user";
+						$scrum = "select * from taches";
 						}else{
-						$scrum = "select * from users ";
-						//inner join 
-						//taches on dev_tache=id_user
-						//where users.id_user=".$_SESSION['id_user']
+						$scrum = "select * from users inner join 
+						taches on dev_tache=id_user
+						where dev_tache=".$_SESSION['id_user'];
 					}
 					
 					$db->query($scrum);
@@ -117,7 +114,18 @@
 					while($res_colonnes = $req_colonnes->fetch()){
 						
 						echo $tab.'<div class="column" id="col'.$res_colonnes['id_col'].'" id_col="'.$res_colonnes['id_col'].'" >';
-						$sql_taches = "select * from taches where col_tache = '".$res_colonnes['id_col']."';";
+						$sql_taches = "select * from taches where col_tache = ".$res_colonnes['id_col'];
+						
+						if(!isset($_SESSION['is_admin'])){
+							$sql_taches .= " and dev_tache=".$_SESSION['id_user'];
+						}
+						
+						
+						if(DEBUG){
+							echo "<script>alert('".$sql_taches."');</script>";
+						}
+						
+						
 						$req_taches = $db->query($sql_taches);
 						while($res_taches = $req_taches->fetch()){
 							echo $sdl.$tab.$tab.'<div class="portlet" id_tache="'.$res_taches['id_tache'].'" id_dev="'.$res_taches['dev_tache'].'" id_test="'.$res_taches['test_tache'].'">'.$sdl;

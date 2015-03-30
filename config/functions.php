@@ -50,7 +50,7 @@
 		if($res_connect = $req_connect->fetch()){
 			if(password_verify($mdp,$res_connect['passwd_user'])){
 				session_start();
-				$_SESSION['id'] = $res_connect['id_user'];
+				$_SESSION['id_user'] = $res_connect['id_user'];
 				if($res_connect['id_config'] == "admin"){
 					$_SESSION['is_admin'] = true;
 				}
