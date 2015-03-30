@@ -2,7 +2,7 @@
 	function info_tache($id,$bd){
 		$req_infotache = $bd->query("select * from taches where id_tache = ".$id);
 		$res_infotache = $req_infotache->fetch();
-		$form = "<form id=\"form_tache\" method=\"GET\"><input type=\"hidden\" id=\"id_tache\" name=\"test\" value=\"".$id." \" />
+		$form = "<form id=\"form_tache\" method=\"POST\"><input type=\"hidden\" id=\"id_tache\" name=\"test\" value=\"".$id." \" />
 		Titre : <input type=\"text\" id=\"titre\" value=\"".$res_infotache['lib_tache']."\"/><br />
 		Commentaire : <input type=\"text\" id=\"comm\" value=\"".$res_infotache['com_tache']."\"/><br />
 		Developpeur : <br /><select name=\"dev\" id=\"dev\">";
@@ -33,15 +33,41 @@
 	
 	function new_tache($bd){
 	
-		$req_insert = $bd->query("insert into taches values('',' ',' ',1,1,1,'ff0000','new')");
+		$req_insert = $bd->query("insert into taches values('',' ',' ',1,1,1,'c0c0c0','a_faire')");
 		$test =$bd->lastInsertId();
 	
-		$req_newid = $bd->query("select max(id_tache) as id from taches");
-		$res_newid = $req_newid->fetch();
-		
 		$form_new = info_tache($test,$bd);
 		
 		return $form_new;
+	
+	}
+	
+	function connect($bd,$login, $mdp){
+		$sql = "SELECT * FROM users left join config on id_user = value_config where login_user = '".$login."'";
+		//$req_connect = $bd->query($sql);
+		$bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
+		$req_connect = $bd->query($sql);
+		if($res_connect = $req_connect->fetch()){
+			if(password_verify($mdp,$res_connect['passwd_user'])){
+				session_start();
+				$_SESSION['id'] = $res_connect['id_user'];
+				if($res_connect['id_config'] == "admin"){
+					$_SESSION['is_admin'] = true;
+				}
+				
+				session_write_close();
+				$retour="ok";
+			}
+			else{
+				$retour = "Connexion échouée. Vérifiez vos identifiants";
+			}
+		}
+		else{
+			$retour = "Connexion échouée. Vérifiez vos identifiants inexistant";
+		}
+			
+		
+		return $retour;
 	
 	}
 ?>

@@ -8,7 +8,7 @@ $(function() {
 	
 	function tache_move(tache, destination){
 		return ($.ajax({
-			type: "GET", 
+			type: "POST", 
 			url:"maj.php",
 			async:false,
 			data: 'a=move&id_tache='+tache+'&col='+destination
@@ -17,7 +17,7 @@ $(function() {
 	
 	function tache_edit(tache,titre, comm, dev, test, couleur ){
 		return ($.ajax({ 
-			type: "GET", 
+			type: "POST", 
 			url:"maj.php",
 			async: false,
 			data: 'a=edit&id_tache='+tache+'&titre='+titre+'&comm='+comm+'&dev='+dev+'&test='+test+'&couleur='+couleur
@@ -26,7 +26,7 @@ $(function() {
 	
 	function tache_create(titre,comm,dev,test,couleur){
 		return ($.ajax({
-			type: "GET",
+			type: "POST",
 			url: "maj.php",
 			async: false,
 			data: 'a=new&titre='+titre+'&comm='+comm+'&dev='+dev+'&test='+test+'&couleur='+couleur
@@ -43,7 +43,7 @@ $(function() {
 		
 		if($(this).attr("id_tache") != ""){
 			var html_form = $.ajax({
-				type: "GET",
+				type: "POST",
 				url: "config/requetes.php",
 				async: false,
 				data: 'req=info_tache&id='+$(this).attr("id_tache")
@@ -58,7 +58,7 @@ $(function() {
 			
 			$( document ).delegate("#form_tache", "submit", function(){
 				
-				var html = tache_edit($("#id_tache").val(),$("#titre").val(),$("#comm").val(),$("#dev").val(),$("#test").val(),$("#couleur").val());
+				var html = tache_edit($("#id_tache").val(),$("#titre").val(),$("#comm").val(),$("#dev").val(),$("#test").val(),($("#couleur").val()).substring(1,7));
 				
 				if(DEBUG){
 					alert("modif ok");
@@ -74,11 +74,11 @@ $(function() {
 		else{
 		
 			if(DEBUG){
-				alert(".portel on dblckick {scrum.js} & id_tache !='' \n\n"+html_form);
+				alert(".portel on dblckick {scrum.js} & id_tache !='' \n\n else l:77");
 			}
 			
 			var html_form = $.ajax({
-				type: "GET",
+				type: "POST",
 				url: "config/requetes.php",
 				async: false,
 				data: 'req=new_tache'
@@ -150,12 +150,6 @@ $(function() {
 				alert("move_tache \n\nentrant : "+entrant+"\n sortant = "+sortant+"\n objet : "+ob);
 				alert(html);
 			}
-			else{
-				//$(ui.item).dblclick();
-			}
-			
-			if(1){
-			}
 		}
 	});
 	
@@ -164,6 +158,7 @@ $(function() {
 		remove: function(event, ui){
 			alert("col0.sortable :onRemove");
 			//$("#div_tache").dialog();
+			$(ui.item).dblclick();
 		}
 	});
 	
@@ -181,5 +176,22 @@ $(function() {
 		icon.closest( ".portlet" ).find( ".portlet-content" ).toggle();
 	});
 	
+	$("#form_connect").on("submit",function(){
+		var retour = $.ajax({
+				type: "POST",
+				url: "config/requetes.php",
+				async: false,
+				data: 'req=connect&login=' +$("#login_form").val() + '&pwd='+$("#pwd_form").val()
+				}).responseText;
+	
+		if(retour == "ok"){
+			return true;
+		}
+		else{
+			alert (retour);
+			return false;
+		}
+		
+	});
 	
 });

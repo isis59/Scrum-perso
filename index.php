@@ -1,4 +1,5 @@
 <!DOCTYPE>
+<?php SESSION_START(); ?>
 <html lang="fr">
 	<head>
 		<meta charset="utf-8">
@@ -59,16 +60,16 @@
 		<script src="scrum.js"></script>
 	</head>
 	<body>
-
-	<?php
-			if(1){
+		
+		<?php
+			if(isset($_SESSION['id']) ){
 				
 				include("db.php");
 				try{
 					$res_adm = $db->query("select * from config where id='admin'");
 					//echo "admin : ".$res_adm->fetch()['value'];
 					//if($_SESSION['id'] == $res_adm['value']){
-					if(0){
+					if(isset($_SESSION['is_admin'])){
 						$scrum = "select * from users 
 						inner join 
 						taches on dev_tache=id_user";
@@ -83,61 +84,68 @@
 					
 					
 				?>
-	
-	<p style="margin:auto;text-align:center;font-size: 40px">Projet MADERA</p>
-	<table>
-		<tr>
-			<td class="entete">col0</td>
-			<td class="entete">col1</td>
-			<td class="entete">col2</td>
-		</tr>
-	</table>
-	<div class="column" id="col0" id_col="0" >
-		
-		<div class='portlet' id='new' id_tache="" id_dev="" id_test="">
-			<div class='portlet-header'>Nouvelle tache</div>
-			<div class='portlet-content'></div>
-		</div>
-		
-	</div>
-	
-	<?php
-		$sdl="\n";
-		$tab="\t";
-		//include("db.php");
-		
-		$sql_colonnes = 'select * from colonnes';
-		$req_colonnes = $db->query($sql_colonnes);
-		while($res_colonnes = $req_colonnes->fetch()){
-			
-			echo $tab.'<div class="column" id="col'.$res_colonnes['id_col'].'" id_col="'.$res_colonnes['id_col'].'" >';
-			$sql_taches = "select * from taches where col_tache = '".$res_colonnes['id_col']."';";
-			$req_taches = $db->query($sql_taches);
-			while($res_taches = $req_taches->fetch()){
-				echo $sdl.$tab.$tab.'<div class="portlet" id_tache="'.$res_taches['id_tache'].'" id_dev="'.$res_taches['dev_tache'].'" id_test="'.$res_taches['test_tache'].'">'.$sdl;
-				echo $tab.$tab.$tab.'<div class="portlet-header">'.$res_taches['lib_tache'].'</div>'.$sdl;
-				echo $tab.$tab.$tab.'<div class="portlet-content">'.$res_taches['com_tache'].'</div>'.$sdl;
-				echo $tab.$tab.'</div>'.$sdl;
-			}
-			
-			echo $tab."</div>".$sdl.$sdl;
-		}
-		
-	?>
-	<div id="div_tache" style="display:none;" title="creer une tache" >
-		
-	</div>
-<?php
-	}
-	catch(Exception $e){
+				
+				<p style="margin:auto;text-align:center;font-size: 40px">Projet MADERA</p>
+				<table>
+					<tr>
+						<td class="entete">col0</td>
+						<td class="entete">col1</td>
+						<td class="entete">col2</td>
+					</tr>
+				</table>
+				<div class="column" id="col0" id_col="0" >
+					
+					<div class='portlet' id='new' id_tache="" id_dev="" id_test="">
+						<div class='portlet-header'>Nouvelle tache</div>
+						<div class='portlet-content'></div>
+					</div>
+					
+				</div>
+				
+				<?php
+					$sdl="\n";
+					$tab="\t";
+					//include("db.php");
+					
+					$sql_colonnes = 'select * from colonnes';
+					$req_colonnes = $db->query($sql_colonnes);
+					while($res_colonnes = $req_colonnes->fetch()){
+						
+						echo $tab.'<div class="column" id="col'.$res_colonnes['id_col'].'" id_col="'.$res_colonnes['id_col'].'" >';
+						$sql_taches = "select * from taches where col_tache = '".$res_colonnes['id_col']."';";
+						$req_taches = $db->query($sql_taches);
+						while($res_taches = $req_taches->fetch()){
+							echo $sdl.$tab.$tab.'<div class="portlet" id_tache="'.$res_taches['id_tache'].'" id_dev="'.$res_taches['dev_tache'].'" id_test="'.$res_taches['test_tache'].'">'.$sdl;
+							echo $tab.$tab.$tab.'<div class="portlet-header">'.$res_taches['lib_tache'].'</div>'.$sdl;
+							echo $tab.$tab.$tab.'<div class="portlet-content">'.$res_taches['com_tache'].'</div>'.$sdl;
+							echo $tab.$tab.'</div>'.$sdl;
+						}
+						
+						echo $tab."</div>".$sdl.$sdl;
+					}
+					
+					?>
+					<div id="div_tache" style="display:none;" title="creer une tache" >
+						
+					</div>
+					<?php
+				}
+				catch(Exception $e){
 					die('Erreur : '. $e->getMessage());
 				}
-			}else{
-				
-			
-			
 			}
-	?>
-	
-</body>
+			else{
+				echo "<h1>Titre</h1>";
+			?>
+			<form id="form_connect" action="">
+				<label for="login"><input type="text" id="login_form" /></for>
+				<label for="pwd"><input type="password" id="pwd_form" /></for>
+				<input type="submit" name="connect_form" value="Connexion" />
+			</form>
+			
+			<?php		
+			}
+		?>
+		
+	</body>
 </html>
