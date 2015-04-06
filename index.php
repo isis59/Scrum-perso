@@ -1,6 +1,6 @@
 <!DOCTYPE>
 <?php 
-	if(!is_dir("_install")){
+	if(is_dir("_install")){
 	// !is_dir : negation mise en place le temp du dev
 		header("location: install.php");	
 	}else{
@@ -71,7 +71,7 @@
 		<?php
 			if(isset($_SESSION['id_user']) ){
 				
-				include("db.php");
+				include("config/db.inc.php");
 				try{
 					$res_adm = $db->query("select * from config where id='admin'");
 					//echo "admin : ".$res_adm->fetch()['value'];

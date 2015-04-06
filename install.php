@@ -22,6 +22,10 @@
 	En cas de questions ou de suggestions, merci de me contacter à [MAIL]. Vous pouvez envoyer vos dons de soutien au projet via PayPal à cette même adresse. 
 	
 	<br /><br />
+	
+	Si vous voyez cette page alors que vous avez déjà procédé à l'installation via ces étapes, alors supprimez le répertoire nommé "_install".
+	
+	<br /><br />
 	Merci et bon travail =)
 	<br /><br />
 	<br /><br />
@@ -52,8 +56,8 @@
 		else if($_GET['step'] == 3){
 			require('_install/config_projet.php');
 		
-			//array_map('unlink', glob("_installe/*"));
-			//rmdir('_installe');
+			array_map('unlink', glob("_install/*"));
+			rmdir('_install');
 			echo "<script>alert('installation terminée. Vous pouvez vous connecter avec les identifiants d\'administration');";
 			echo "window.location.href='index.php';</script>";
 		}

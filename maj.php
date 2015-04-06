@@ -18,10 +18,7 @@ if(isset($_POST['a'])){
 				
 				$upd_task = "update taches set dev_tache=".$res_seltask['test_tache'].", test_tache=".$res_seltask['dev_tache'].", etat_tache='test', col_tache=1 where id_tache=".$_POST['id_tache'];	
 				$res_updtask = $db->query($upd_task);
-			}
-			
-				
-			
+			}			
 		}
 		else{
 			echo $sql_upd;
@@ -34,7 +31,7 @@ if(isset($_POST['a'])){
 	}
 }
 else{
-	echo "erreur de paramètre";
+	echo "erreur de paramètre vers maj.php";
 }
 
 ?>
