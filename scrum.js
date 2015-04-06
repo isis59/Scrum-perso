@@ -24,24 +24,19 @@ $(function() {
 		}).responseText);	
 	}
 	
-	function tache_create(titre,comm,dev,test,couleur){
-		return ($.ajax({
-			type: "POST",
-			url: "maj.php",
-			async: false,
-			data: 'a=new&titre='+titre+'&comm='+comm+'&dev='+dev+'&test='+test+'&couleur='+couleur
-		}).responseText);
-	}
+
 	
 	$(".portlet").on("dblclick",function() {
-		 
+		
+		var tache = $(this);
 		$("#id_tache").val("");	
 		
 		if(DEBUG){
-			alert("event dblclick");
+			alert("L35 : event portlet : dblclick \n\n id_tache = "+$(this).attr("id_tache"));
 		}
 		
-		if($(this).attr("id_tache") != ""){
+		if($(this).attr("id_tache") != "" && $(this).attr("id") != "new"){
+		
 			var html_form = $.ajax({
 				type: "POST",
 				url: "config/requetes.php",
@@ -50,7 +45,7 @@ $(function() {
 			}).responseText;
 			
 			if(DEBUG){
-				alert(".portel on dblckick {scrum.js} & id_tache !='' \n\n"+html_form);
+				alert("L48 : .portlet on dblckick {scrum.js} & id_tache !='' \n\n"+html_form);
 			}
 			
 			$("#div_tache").html(html_form);
@@ -67,14 +62,14 @@ $(function() {
 				
 				$("#div_tache").dialog('close');
 				
-				
 				return false;
 			}); 
 		}
 		else{
-		
+			$(this).attr("id_tache","");
 			if(DEBUG){
-				alert(".portel on dblckick {scrum.js} & id_tache !='' \n\n else l:77");
+				alert('L72 : $(this).attr("id_tache") != "" || $(this).attr("id_tache") != "0"');
+				alert("L73 : .portel on dblckick {scrum.js} & id_tache !='' \n\n else l:77");
 			}
 			
 			var html_form = $.ajax({
@@ -100,7 +95,7 @@ $(function() {
 					alert(html);
 				}
 
-				var tache_new = "<div class='portlet' id='' id_tache='' id_dev='"+$("#dev").val()+"' id_test='"+$("#test").val()+"'><div class='portlet-header'>"+$("#titre").val()+"</div><div class='portlet-content'>"+$("#comm").val()+"</div></div>";						
+				var tache_new = "<div class='portlet' id='' id_tache='"+$("#id_tache").val()+"' id_dev='"+$("#dev").val()+"' id_test='"+$("#test").val()+"'><div class='portlet-header'>"+$("#titre").val()+"</div><div class='portlet-content'>"+$("#comm").val()+"</div></div>";						
 				
 				$("#col1").append(tache_new);
 				
@@ -113,14 +108,37 @@ $(function() {
 				$("#div_tache").dialog("close");
 				$( document ).undelegate("#form_tache", "submit");
 				$("#form_tache").remove();
-				
-				
+						
 				return false;
 			}); 
 			
 			$("#col0").sortable( "cancel" );
 			
 		}
+		
+		$( document ).delegate("#delete", "click", function( event, ui){
+				
+			var html = $.ajax({
+				type: "POST",
+				url: "config/requetes.php",
+				async: false,
+				data: 'req=del_tache&id='+$("#id_tache").val()
+				}).responseText;
+	
+			if(html == "success" && tache.attr("id_tache") != "0"){
+				tache.remove();
+			}else{
+				if(tache.attr("id_tache") != "0"){
+					alert(html);
+				}
+			}
+			
+			$("#div_tache").dialog("close");
+			$( document ).undelegate("#delete", "click");
+			$("#form_tache").remove();
+			
+			return false;
+		});
 		
 				
 		return false;
@@ -139,25 +157,27 @@ $(function() {
 			sortant = $(this).attr("id_col");
 		},
 		stop: function( event, ui ) {
-			alert($(ui.item).attr("id_tache"));
+			if(DEBUG){
+				alert($(ui.item).attr("id_tache"));
+			}
+			
 			if($(ui.item).attr("id_tache") != ""){
-				
 				var html = tache_move(ob,entrant);
 				if(html == "test"){
-					alert('passage en test');
+					alert('Envoi en test');
 					//location.reload(true);
 				}
-				alert("move_tache \n\nentrant : "+entrant+"\n sortant = "+sortant+"\n objet : "+ob);
-				alert(html);
 			}
+			if(DEBUG){
+					alert("move_tache \n\nentrant : "+entrant+"\n sortant = "+sortant+"\n objet : "+ob);
+					alert(html);
+				}
 		}
 	});
 	
 	
 	$("#col0").sortable({
 		remove: function(event, ui){
-			alert("col0.sortable :onRemove");
-			//$("#div_tache").dialog();
 			$(ui.item).dblclick();
 		}
 	});
@@ -167,7 +187,7 @@ $(function() {
 	.addClass( "ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" )
 	.find( ".portlet-header" )
 	.addClass( "ui-widget-header ui-corner-all" )
-	.prepend( "<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>");
+	.prepend( "<span class='ui-icon ui-icon-plusthick portlet-toggle'></span>");
 	
 	
 	$( ".portlet-toggle" ).click(function() {
@@ -193,5 +213,7 @@ $(function() {
 		}
 		
 	});
+	
+
 	
 });

@@ -23,8 +23,15 @@
 				$retour = connect($db,$_POST['login'],$_POST['pwd']);
 				echo ($retour);
 				break;
-		
+				
+			case "del_tache":
+				del_tache($db,$_POST['id']);
+				break;		
 		}	
+	
+	}
+	else{
+		echo "Une erreur est survenue lors de l'envoi de la requête";
 	
 	}
 

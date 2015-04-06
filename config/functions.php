@@ -25,6 +25,7 @@
 		
 		$form .= '</select><br />
 		Couleur : <input type="color" id="couleur" value="#'.$res_infotache['couleur_tache'].'"/><br /><br />
+		<input type="button" id="delete" value="Supprimer" /><br />
 		<input type="submit" value="envoyer" /><br />
 		</form>';
 		
@@ -40,6 +41,16 @@
 		
 		return $form_new;
 	
+	}
+	
+	function del_tache($bd,$id){
+		try{
+			$req_delete = $bd->query("delete from taches where id_tache = '".$id."'");
+			echo "success";
+		}
+		catch(Exception $e){
+			die('Erreur : '. $e->getMessage());
+		}
 	}
 	
 	function connect($bd,$login, $mdp){

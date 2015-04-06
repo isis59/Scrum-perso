@@ -1,5 +1,11 @@
 <!DOCTYPE>
-<?php SESSION_START(); ?>
+<?php 
+	if(!is_dir("_install")){
+	// !is_dir : negation mise en place le temp du dev
+		header("location: install.php");	
+	}else{
+	
+	SESSION_START(); ?>
 <html lang="fr">
 	<head>
 		<meta charset="utf-8">
@@ -47,6 +53,7 @@
 			
 			.portlet-content {
 			padding: 0.4em;
+			display:none;
 			}
 			
 			.portlet-placeholder {
@@ -82,7 +89,7 @@
 					
 				?>
 				
-				<p style="margin:auto;text-align:center;font-size: 40px">Projet MADERA</p>
+				<p style="margin:auto;margin-bottom:20px;text-align:center;font-size: 40px">Projet MADERA</p>
 				<table>
 					<tr>
 						<td class="entete">&nbsp;</td>
@@ -120,16 +127,16 @@
 							$sql_taches .= " and dev_tache=".$_SESSION['id_user'];
 						}
 						
-						
-						if(DEBUG){
-							echo "<script>alert('".$sql_taches."');</script>";
-						}
-						
-						
 						$req_taches = $db->query($sql_taches);
 						while($res_taches = $req_taches->fetch()){
 							echo $sdl.$tab.$tab.'<div class="portlet" id_tache="'.$res_taches['id_tache'].'" id_dev="'.$res_taches['dev_tache'].'" id_test="'.$res_taches['test_tache'].'">'.$sdl;
-							echo $tab.$tab.$tab.'<div class="portlet-header">'.$res_taches['lib_tache'].'</div>'.$sdl;
+							if($res_taches['etat_tache'] == "test"){
+								$titre = "[TEST] ".$res_taches['lib_tache'];
+							}
+							else{
+								$titre = $res_taches['lib_tache'];
+							}
+							echo $tab.$tab.$tab.'<div class="portlet-header">'.$titre.'</div>'.$sdl;
 							echo $tab.$tab.$tab.'<div class="portlet-content">'.$res_taches['com_tache'].'</div>'.$sdl;
 							echo $tab.$tab.'</div>'.$sdl;
 						}
@@ -150,7 +157,8 @@
 			else{
 				echo "<h1>Titre</h1>";
 			?>
-			<form id="form_connect" action="">
+			<form id="form_connect" action="index.php" method="POST">
+			
 				<label for="login"><input type="text" id="login_form" /></for>
 				<label for="pwd"><input type="password" id="pwd_form" /></for>
 				<input type="submit" name="connect_form" value="Connexion" />
@@ -161,4 +169,7 @@
 		?>
 		
 	</body>
+<?php		
+			}
+		?>
 </html>
