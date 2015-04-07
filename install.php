@@ -34,7 +34,7 @@
 	
 	if(!defined('PHP_VERSION_ID')){
 		$version = explode('.',PHP_VERSION);	
-		define('PHP_VERSION_ID',($version[0] * 1000 + $version[1] * 100 + $version[2]);
+		define('PHP_VERSION_ID',($version[0] * 1000 + $version[1] * 100 + $version[2]));
 	}
 	
 	echo PHP_VERSION_ID;
@@ -63,8 +63,8 @@
 		else if($_GET['step'] == 3){
 			require('_install/config_projet.php');
 		
-			array_map('unlink', glob("_install/*"));
-			rmdir('_install');
+			//array_map('unlink', glob("_install/*"));
+			//rmdir('_install');
 			echo "<script>alert('installation terminée. Vous pouvez vous connecter avec les identifiants d\'administration');";
 			echo "window.location.href='index.php';</script>";
 		}
