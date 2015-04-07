@@ -32,6 +32,13 @@
 	
 <?php
 	
+	if(!defined('PHP_VERSION_ID')){
+		$version = explode('.',PHP_VERSION);	
+		define('PHP_VERSION_ID',($version[0] * 1000 + $version[1] * 100 + $version[2]);
+	}
+	
+	echo PHP_VERSION_ID;
+	
 	if(!isset($_GET['step'])){
 
 		echo '<form method="POST" action="?step=1" />';
