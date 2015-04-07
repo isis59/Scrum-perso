@@ -76,8 +76,8 @@ CREATE TABLE IF NOT EXISTS `taches` (
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id_user` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id de l''utilisateur',
-  `nom_user` varchar(10) NOT NULL COMMENT 'nom de l''utilisateur',
-  `login_user` varchar(10) NOT NULL,
+  `nom_user` varchar(100) NOT NULL COMMENT 'nom de l''utilisateur',
+  `login_user` varchar(20) NOT NULL,
   `passwd_user` varchar(256) NOT NULL,
   `mail_user` varchar(255) NOT NULL COMMENT 'mail de l''utilisateur',
   PRIMARY KEY (`id_user`),
