@@ -1,5 +1,5 @@
 <?php
-	include("config/db.inc.php");
+	include('db.inc.php');
 	
 	
 	

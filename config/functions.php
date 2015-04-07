@@ -55,7 +55,7 @@
 	
 	function connect($bd,$login, $mdp){
 		$sql = "SELECT * FROM users left join config on id_user = value_config where login_user = '".$login."'";
-		//$req_connect = $bd->query($sql);
+		//return $sql;
 		$bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
 		$req_connect = $bd->query($sql);
 		if($res_connect = $req_connect->fetch()){
