@@ -34,7 +34,7 @@
 	
 	function new_tache($bd){
 	
-		$req_insert = $bd->query("insert into taches values('',' ',' ',1,1,1,'c0c0c0','a_faire')");
+		$req_insert = $bd->query("insert into taches values('','titre tache','commentaire','','','','c0c0c0','a_faire')");
 		$test =$bd->lastInsertId();
 	
 		$form_new = info_tache($test,$bd);
