@@ -35,8 +35,9 @@
 	function new_tache($bd){
 	
 		$req_admin = $bd->query("select * from config where id_config = 'admin' ");
+		$res_admin = $req_admin->fetch();
 	
-		$req_insert = $bd->query("insert into taches values('','titre tache','commentaire',".$req_admin['value_config'].",".$req_admin['value_config'].",".$req_admin['value_config'].",'c0c0c0','a_faire')");
+		$req_insert = $bd->query("insert into taches values('','titre tache','commentaire','".$res_admin['value_config']."','".$res_admin['value_config']."','".$res_admin['value_config']."','c0c0c0','a_faire')");
 		$test =$bd->lastInsertId();
 	
 		$form_new = info_tache($test,$bd);
