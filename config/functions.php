@@ -1,5 +1,5 @@
 <?php	
-	function info_tache($id,$bd,$sql){
+	function info_tache($id,$bd){
 		$req_infotache = $bd->query("select * from taches where id_tache = ".$id);
 		$res_infotache = $req_infotache->fetch();
 		$form = "<form id=\"form_tache\" method=\"POST\"><input type=\"hidden\" id=\"id_tache\" name=\"test\" value=\"".$id." \" />
@@ -29,20 +29,19 @@
 		<input type="submit" value="envoyer" /><br />
 		</form>';
 		
-		$form .= $sql;
 		
 		return $form;
 	}
 	
 	function new_tache($bd){
 	
-		$req_admin = $bd->query("select * from config where id_config = 'admin' ");
-		$res_admin = $req_admin->fetch();
-		$sql = "insert into taches values('','titre tache','commentaire','".$res_admin['value_config']."','".$res_admin['value_config']."','".$res_admin['value_config']."','c0c0c0','a_faire')";
+		//$req_admin = $bd->query("select * from config where id_config = 'admin' ");
+		//$res_admin = $req_admin->fetch();
+		$sql = "insert into taches values('','titre tache','commentaire',NULL,NULL,NULL,'c0c0c0','a_faire')";
 		$req_insert = $bd->query($sql);
 		$test =$bd->lastInsertId();
 	
-		$form_new = info_tache($test,$bd,$sql);
+		$form_new = info_tache($test,$bd);
 		return $form_new;
 	
 	}
