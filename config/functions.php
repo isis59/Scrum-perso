@@ -34,11 +34,12 @@
 	
 	function new_tache($bd){
 	
-		$req_insert = $bd->query("insert into taches values('','titre tache','commentaire','','','','c0c0c0','a_faire')");
+		$req_admin = $bd->query("select * from config where id_config = 'admin' ");
+	
+		$req_insert = $bd->query("insert into taches values('','titre tache','commentaire',".$_req_admin['value_config'].",".$_req_admin['value_config'].",".$_req_admin['value_config'].",'c0c0c0','a_faire')");
 		$test =$bd->lastInsertId();
 	
 		$form_new = info_tache($test,$bd);
-		
 		return $form_new;
 	
 	}
