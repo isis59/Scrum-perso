@@ -1,5 +1,7 @@
 ignore
 test.php
+_install/toDelete
+config/db*
 
 
 #################
