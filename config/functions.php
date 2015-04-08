@@ -37,7 +37,7 @@
 	
 		//$req_admin = $bd->query("select * from config where id_config = 'admin' ");
 		//$res_admin = $req_admin->fetch();
-		$sql = "insert into taches values('','titre tache','commentaire',NULL,NULL,NULL,'c0c0c0','a_faire')";
+		$sql = "insert into taches values('','titre tache','commentaire',NULL,NULL,1,'c0c0c0','a_faire')";
 		$req_insert = $bd->query($sql);
 		$test =$bd->lastInsertId();
 	
